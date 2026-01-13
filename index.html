@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Manajemen Tugas</title>
+    <!-- ICON -->
+    <link rel="icon website" type="png" href="IMG/notes.png">
+    <!-- SCROLL STYLE -->
+    <link rel="stylesheet" href="CSS/skrol.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="CSS/style.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1><i class="bi bi-journal-bookmark-fill"></i> Task Manager</h1>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="nav-header">
+            <h2>Menu</h2>
+            <button class="close-btn" id="closeSidebar">&times;</button>
+        </div>
+        <ul class="nav-tabs">
+            <li><a href="#" class="tab-link active" data-tab="tugas"><i class="bi bi-list-task"></i> Daftar Tugas</a></li>
+            <li><a href="#" class="tab-link" data-tab="tambah"><i class="bi bi-plus-circle-fill"></i> Tambah Tugas</a></li>
+        </ul>
+    </nav>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Tab Tugas -->
+        <div class="tab-content active" id="tab-tugas">
+            <div class="content-wrapper">
+                <!-- Mobile Subject Selector -->
+                <div class="mobile-subject-selector" id="mobileSubjectSelector">
+                    <label for="mobileSubjectSelect">Pilih Mata Pelajaran:</label>
+                    <select id="mobileSubjectSelect">
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        <option value="PBO">PBO</option>
+                        <option value="PAI">PAI</option>
+                        <option value="P8">P8</option>
+                        <option value="Bahasa Jepang">Bahasa Jepang</option>
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        <option value="PJOK">PJOK</option>
+                        <option value="Matematika">Matematika</option>
+                        <option value="PKK">PKK</option>
+                        <option value="PWPB">PWPB</option>
+                        <option value="Robotik">Robotik</option>
+                        <option value="PPKN">PPKN</option>
+                        <option value="Sejarah">Sejarah</option>
+                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                        <option value="PPL">PPL</option>
+                        <option value="Basis Data">Basis Data</option>
+                    </select>
+                </div>
+
+                <!-- Sidebar Mata Pelajaran -->
+                <aside class="subjects-sidebar" id="desktopSubjectsSidebar">
+                    <h2>Mata Pelajaran</h2>
+                    <ul class="subjects-list" id="subjectsList">
+                        <!-- Akan diisi oleh JavaScript -->
+                    </ul>
+                </aside>
+
+                <!-- Area Tugas -->
+                <section class="tasks-area">
+                    <div class="tasks-header">
+                        <h2 id="selectedSubject">Pilih Mata Pelajaran</h2>
+                    </div>
+                    <div class="tasks-container" id="tasksContainer">
+                        <div class="empty-state">
+                            <p>Pilih mata pelajaran untuk melihat tugas</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Tab Tambah Tugas -->
+        <div class="tab-content" id="tab-tambah">
+            <div class="add-task-container">
+                <h2>Tambah Tugas Baru</h2>
+                <form id="addTaskForm">
+                    <div class="form-group">
+                        <label for="taskSubject">Mata Pelajaran *</label>
+                        <select id="taskSubject" required>
+                            <option value="">-- Pilih Mata Pelajaran --</option>
+                            <option value="PBO">PBO</option>
+                            <option value="PAI">PAI</option>
+                            <option value="P8">P8</option>
+                            <option value="Bahasa Jepang">Bahasa Jepang</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                            <option value="PJOK">PJOK</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="PKK">PKK</option>
+                            <option value="PWPB">PWPB</option>
+                            <option value="Robotik">Robotik</option>
+                            <option value="PPKN">PPKN</option>
+                            <option value="Sejarah">Sejarah</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="PPL">PPL</option>
+                            <option value="Basis Data">Basis Data</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskTitle">Judul Tugas *</label>
+                        <input type="text" id="taskTitle" placeholder="Contoh: Tugas Praktikum Minggu 3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDescription">Deskripsi Tugas *</label>
+                        <textarea id="taskDescription" rows="3" placeholder="Deskripsi singkat tentang tugas..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskContent">Isi Soal (Opsional)</label>
+                        <textarea id="taskContent" rows="6" placeholder="Tulis soal atau detail tugas lengkap di sini..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskFiles">Upload File (Opsional - Maksimal 50 file, 1GB per file)</label>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-placeholder">
+                                <i class="bi bi-cloud-upload upload-icon"></i>
+                                <p>Drag & Drop file di sini atau klik untuk memilih</p>
+                                <p class="upload-hint">Maksimal 50 file, 1GB per file</p>
+                            </div>
+                            <input type="file" id="taskFiles" multiple style="display: none;">
+                        </div>
+                        <div class="ordering-info" id="orderingInfo" style="display: none;">
+                            <p><i class="bi bi-lightbulb"></i> Pilih nomor urutan pada dropdown di bawah setiap item</p>
+                            <button type="button" class="btn btn-secondary btn-small" id="previewOrderBtn"><i class="bi bi-eye"></i> Preview Urutan</button>
+                            <button type="button" class="btn btn-secondary btn-small" id="resetOrderBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset Urutan</button>
+                        </div>
+                        <div class="files-preview" id="filesPreview"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Simpan Tugas</button>
+                        <button type="reset" class="btn btn-secondary"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Detail Tugas -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Detail Tugas</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Order Modal -->
+    <div class="modal" id="previewOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Preview Urutan Gambar</h2>
+                <button class="modal-close" id="closePreviewModal">&times;</button>
+            </div>
+            <div class="modal-body" id="previewOrderBody">
+                <!-- Akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div class="modal" id="editTaskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Tugas</h2>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editTaskForm">
+                    <input type="hidden" id="editTaskId">
+                    
+                    <div class="form-group">
+                        <label for="editTaskSubject">Mata Pelajaran *</label>
+                        <select id="editTaskSubject" required>
+                            <option value="">-- Pilih Mata Pelajaran --</option>
+                            <option value="PBO">PBO</option>
+                            <option value="PAI">PAI</option>
+                            <option value="P8">P8</option>
+                            <option value="Bahasa Jepang">Bahasa Jepang</option>
+                            <option value="Bahasa Inggris">Bahasa Inggris</option>
+                            <option value="PJOK">PJOK</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="PKK">PKK</option>
+                            <option value="PWPB">PWPB</option>
+                            <option value="Robotik">Robotik</option>
+                            <option value="PPKN">PPKN</option>
+                            <option value="Sejarah">Sejarah</option>
+                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                            <option value="PPL">PPL</option>
+                            <option value="Basis Data">Basis Data</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTaskTitle">Judul Tugas *</label>
+                        <input type="text" id="editTaskTitle" placeholder="Contoh: Tugas Praktikum Minggu 3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTaskDescription">Deskripsi Tugas *</label>
+                        <textarea id="editTaskDescription" rows="3" placeholder="Deskripsi singkat tentang tugas..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTaskContent">Isi Soal (Opsional)</label>
+                        <textarea id="editTaskContent" rows="6" placeholder="Tulis soal atau detail tugas lengkap di sini..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTaskFiles">Upload File Tambahan (Opsional - Maksimal 50 file total, 1GB per file)</label>
+                        <div class="upload-area" id="editUploadArea">
+                            <div class="upload-placeholder">
+                                <i class="bi bi-cloud-upload upload-icon"></i>
+                                <p>Drag & Drop file di sini atau klik untuk memilih</p>
+                                <p class="upload-hint">Maksimal 50 file total, 1GB per file</p>
+                            </div>
+                            <input type="file" id="editTaskFiles" multiple style="display: none;">
+                        </div>
+                        <div class="ordering-info" id="editOrderingInfo" style="display: none;">
+                            <p><i class="bi bi-lightbulb"></i> Pilih nomor urutan pada dropdown di bawah setiap item</p>
+                            <button type="button" class="btn btn-secondary btn-small" id="editPreviewOrderBtn"><i class="bi bi-eye"></i> Preview Urutan</button>
+                            <button type="button" class="btn btn-secondary btn-small" id="editResetOrderBtn"><i class="bi bi-arrow-counterclockwise"></i> Reset Urutan</button>
+                        </div>
+                        <div class="files-preview" id="editFilesPreview"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Simpan Perubahan</button>
+                        <button type="button" class="btn btn-secondary" id="cancelEdit"><i class="bi bi-x-lg"></i> Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-prev" id="lightboxPrev"><i class="bi bi-chevron-left"></i></button>
+        <button class="lightbox-next" id="lightboxNext"><i class="bi bi-chevron-right"></i></button>
+        <div class="lightbox-zoom-controls">
+            <button class="zoom-btn zoom-in" id="zoomIn"><i class="bi bi-zoom-in"></i></button>
+            <button class="zoom-btn zoom-out" id="zoomOut"><i class="bi bi-zoom-out"></i></button>
+            <button class="zoom-btn zoom-reset" id="zoomReset"><i class="bi bi-arrow-counterclockwise"></i></button>
+        </div>
+        <div class="lightbox-content" id="lightboxContent">
+            <img id="lightboxImage" src="" alt="Lightbox Image">
+            <div class="lightbox-counter" id="lightboxCounter"></div>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="JS/script.js"></script>
+</body>
+</html>
