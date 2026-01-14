@@ -2311,3 +2311,51 @@ window.addEventListener('resize', () => {
         hamburger.classList.remove('active');
     }
 });
+
+// Fungsi untuk mengaktifkan no-scroll pada body
+function disableBodyScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none'; // Untuk mencegah scroll di mobile
+}
+
+// Fungsi untuk mengembalikan scroll pada body
+function enableBodyScroll() {
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
+}
+
+// Cari event listener yang membuka modal tugas (showTaskDetail)
+const originalShowTaskDetail = showTaskDetail; // Simpan fungsi original jika ada
+showTaskDetail = function(taskId) {
+    if (originalShowTaskDetail) originalShowTaskDetail(taskId);
+    disableBodyScroll();
+};
+
+// Cari event listener close modal tugas
+closeModal.addEventListener('click', () => {
+    taskModal.classList.remove('active');
+    enableBodyScroll();
+});
+
+taskModal.addEventListener('click', (e) => {
+    if (e.target === taskModal) {
+        taskModal.classList.remove('active');
+        enableBodyScroll();
+    }
+});
+
+// Untuk keyboard escape (sudah ada di setupEventListeners, tambahkan enableBodyScroll)
+const originalEscapeHandler = function(e) {
+    if (e.key === 'Escape') {
+        if (taskModal.classList.contains('active')) {
+            taskModal.classList.remove('active');
+            enableBodyScroll();
+        } else if (previewOrderModal.classList.contains('active')) {
+            previewOrderModal.classList.remove('active');
+            enableBodyScroll(); // Opsional: terapkan juga untuk modal lain jika diinginkan
+        } else if (editTaskModal.classList.contains('active')) {
+            closeEditModalFunc();
+            enableBodyScroll(); // Opsional
+        }
+    }
+};
