@@ -533,6 +533,15 @@ function showTaskDetail(taskId) {
             </div>
         `;
     }
+
+    if (task.link) {
+        modalContent += `
+            <div class="modal-section">
+                <h3><i class="bi bi-code-slash"></i> Isi Soal Link</h3>
+                <a href="${task.link}" target="_blank">${task.linknama}</a>
+            </div>
+        `;
+    }
     
     if (task.files && task.files.length > 0) {
         // Separate images and non-images
@@ -930,6 +939,8 @@ addTaskForm.addEventListener('submit', (e) => {
         title: document.getElementById('taskTitle').value,
         description: document.getElementById('taskDescription').value,
         content: document.getElementById('taskContent').value,
+        link: document.getElementById('taskLink').value,
+        linknama: document.getElementById('taskLinkNama').value,
         files: orderedFiles,
         completed: false,
         createdAt: new Date().toISOString()
@@ -1435,7 +1446,9 @@ function openEditModal(taskId) {
     document.getElementById('editTaskSubject').value = task.subject;
     document.getElementById('editTaskTitle').value = task.title;
     document.getElementById('editTaskDescription').value = task.description;
-    document.getElementById('editTaskContent').value = task.content || '';
+    document.getElementById('editTaskContent').value = task.content;
+    document.getElementById('editTaskLink').value = task.link;
+    document.getElementById('editTaskLinkNama').value = task.linknama || '';
     
     editUploadedFiles = task.files ? [...task.files] : [];
     editFileOrderMap = {};
@@ -1487,6 +1500,8 @@ editTaskForm.addEventListener('submit', (e) => {
     task.title = document.getElementById('editTaskTitle').value;
     task.description = document.getElementById('editTaskDescription').value;
     task.content = document.getElementById('editTaskContent').value;
+    task.link = document.getElementById('editTaskLink').value;
+    task.linknama = document.getElementById('editTaskLinkNama').value || '';
     task.files = orderedFiles;
     
     saveTasks();

@@ -22,6 +22,7 @@
     --accent-blue: #1e3a8a;
     --accent-blue-light: #2563eb;
     --text-primary: #e5e7eb;
+    --text-link: #005eff;
     --text-secondary: #9ca3af;
     --border-color: #374151;
     --success: #10b981;
@@ -898,6 +899,19 @@ header h1 {
     line-height: 1.8;
     font-size: 1.25rem;
     white-space: pre-wrap;
+}
+
+.modal-section a {
+    color: var(--text-link);
+    line-height: 1.8;
+    font-size: 1.25rem;
+    white-space: pre-wrap;
+    text-decoration: none;
+}
+
+.modal-section a:hover {
+    color: #5392ff;
+    text-decoration: underline;
 }
 
 .modal-images-grid {
